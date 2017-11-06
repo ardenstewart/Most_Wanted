@@ -165,8 +165,8 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
+  var firstName = promptFor("What is the person's first name?", chars).toLowerCase();
+  var lastName = promptFor("What is the person's last name?", chars).toLowerCase();
   firstName = capitalizeFirstName(firstName);
   lastName = capitalizeLastName(lastName);
   let filteredPerson = people.filter(function (el) {
@@ -180,12 +180,12 @@ function searchByName(people){
 }
 
 function capitalizeFirstName(firstName){
-	return firstName.toString().toLowerCase().charAt(0).toUpperCase() + firstName.slice(1);
+	return firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
   // TODO: find the person using the name they entered
 }
 function capitalizeLastName(lastName){
-	return lastName.toString().toLowerCase().charAt(0).toUpperCase() + lastName.slice(1);
+	return lastName.charAt(0).toUpperCase() + lastName.slice(1);
 }
 // alerts a list of people
 function displayPeople(people){
