@@ -70,7 +70,7 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    
     break;
     case "family":
     // TODO: get person's family
