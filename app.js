@@ -63,27 +63,21 @@ function searchByTraits(people, foundPeople) {
       break;
   }  
   foundPeople = filteredPeople;
+  (displayPeople(filteredPeople));
   while(foundPeople.length > 1 ){
   searchAgain = promptFor("Would you like to refine your search?", yesNo).toLowerCase();
 	  if(searchAgain === "yes"){
-	  	searchByTraits(people, filteredPeople);
-  	}
+	  	return searchByTraits(people, filteredPeople);
+  	  }
+  	  else{
+  	  	foundPeople = (selectPerson(filteredPeople));
+  	  	break;
+  	  }
   }
 
-  mainMenu(foundPeople, people);
+  mainMenu(foundPeople[0], people);
 }
 
-// function searchByTraits(people){
-// 	let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.").split(",");
-// 	let filteredPeople;
-// 	let newArray;
-// 	for(i = 0; i <= userSearchChoice.length; i++){
-// 		newArray = people.filter(function (el){
-// 			if(el.userSearchChoice[i] === userSearchChoice[i])
-// 				return true;
-// 		});
-// 	}
-// }
 function searchByHeight(people) {
   let userInputHeight = prompt("How tall is the person?");
 
@@ -117,7 +111,6 @@ function searchByEyeColor(people) {
     if(el.eyeColor == userInputEyeColor) {
       return true;
     }
-    // return true if el.height matches userInputHeight
   });
 
   return newArray;
@@ -162,6 +155,26 @@ function searchByOccupation(people) {
   return newArray;
 }
 
+function selectPerson(filteredPeople){
+	let userChoiceFirstName;
+	let userChoiceLastName;
+	let userPersonChoice = prompt("Please select a person:\n\n" + filteredPeople.map(function(person){
+    return person.firstName + " " + person.lastName;
+  }).join("\n"));
+	userPersonChoice = userPersonChoice.split(" ");
+	userChoiceFirstName = userPersonChoice[0].toString();
+	userChoiceFirstName = userChoiceFirstName.charAt(0).toUpperCase() + userChoiceFirstName.slice(1);
+	userChoiceLastName = userPersonChoice[1].toString();
+	userChoiceLastName = userChoiceLastName.charAt(0).toUpperCase() + userChoiceLastName.slice(1);
+	filteredPeople = filteredPeople.filter(function (el){
+		if(userChoiceFirstName === el.firstName && userChoiceLastName === el.lastName){
+			return true;
+		}
+	});
+	return filteredPeople;
+}
+
+
 function mainMenu(person, people){
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
@@ -170,7 +183,7 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-  var displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
@@ -201,7 +214,7 @@ function capitalizeLastName(lastName){
 }
 // alerts a list of people
 function displayPeople(people){
-  alert(people.map(function(person){
+  return alert("You search has returned the following results:\n\n" + people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
