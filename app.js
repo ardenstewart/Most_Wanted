@@ -151,11 +151,12 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    alert(person[0].gender + "\n" + person[0].height + "\n" + person[0].weight + "\n" + person[0].eyeColor)
-    // TODO: get person's info- missing age, will include once we figure that out.
+    alert("Gender: " + person[0].gender + "\n" + "Height: " + person[0].height + " inches" + "\n" + "Weight: " + person[0].weight + " pounds" + "\n" + "Eye Color: " + person[0].eyeColor)
+    // TODO: missing age, will include once we figure that out.
     break;
     case "family":
-    // TODO: get person's family
+    // TODO: get person's family 
+    alert(findFamily(person, people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -169,6 +170,84 @@ function mainMenu(person, people){
     return mainMenu(person, people); // ask again
   }
 }
+// Still fiddling with finding  family members- trying this for now.
+
+function findFamily(person, people){
+  let family = [];
+  // family.concat(findSpouse(person, people));
+  family.concat(findParents(person, people));
+  // family.concat(findChildren(person, people));
+  // family.concat(findSiblings(person,people));
+
+ 
+  return family;
+}
+
+  function findParents (person, people) {
+    let parents = " ";
+    for (let i = 0; i < newArray.length; i++) {
+      parents += newArray[i].firstName + " " + newArray[i].lastName + "\n";
+    }
+     
+
+    let parentsCode1 = people[0].parents[0];
+    let parentsCode2 = people[0].parents[1];
+
+    let newArray = people.filter(function (el) {
+    if (el.id === parentsCode1 || el.id === parentsCode2) {
+       return true;
+      }
+      });
+
+   
+
+  }
+
+  function findSpouse (person, people) {
+    let spouse = " ";
+    spouse += newArray[0];
+    return spouse;
+
+
+    let spouseCode = person[0].currentSpouse;
+    let newArray = people.filter(function (el) {
+    if (el.id === spouseCode) {
+       return person.firstName + person.lastName;
+    }
+    });
+  }
+
+
+  function findSiblings (person, people) {
+    let siblings = " ";
+    siblings += ;
+    return siblings;
+    
+    let parentsCode1 = person[0].parents[0];
+    let parentsCode2 = person [0].parents[1];
+
+    let newArray = people.filter(function (el) {
+      if (el.parents[0] === parentsCode1 || el.parents[0] === parentsCode2 || el.parents[1] === parentsCode1 || el.parents[1] === parentsCode2) {
+        return person.firstName + person.lastName;
+      } 
+    });
+  }
+
+  function findChildren (person, people) {
+    let children = " ";
+    children += person.firstName;
+    children += person.lastName;
+    return children;
+
+    let idCode = person[0].id;
+    let newArray = people.filter(function (el) {
+      if (el.parents[0] === idCode || el.parents[1] === idCode ){
+        return person.firstName + person.lastName;
+      }
+    });
+  }
+
+// End of fiddling with family
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars);
@@ -198,7 +277,12 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  personInfo += "Gender: " + person.gender + "\n";
+  // personInfo += "Age: " + TODO- add in here once age is calculated
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
   alert(personInfo);
 }
 
@@ -217,5 +301,6 @@ function yesNo(input){
 
 // helper function to pass in as default promptFor validation
 function chars(input){
-  return true; // default validation only
-}
+  return true;
+}// default validation only
+
