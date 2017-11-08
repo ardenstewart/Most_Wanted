@@ -110,14 +110,27 @@ function searchByGender(people) {
 // Menu function to call once you find who you are looking for
 
 function searchByAge(people) {
-  let userInputAge = prompt("What is the person's age?");
+  people = people.map(function(el) {
+    let age = getAge(el.dob);
+    el.age = age;
+    return el;
+  })
 
-  let newArray = people.filter(function (el) {
-    if(el.age == userInputAge) {
+  let userInputAge = prompt("What is the persons age?");
+  let newArrayAge = people.filter(function (el) {
+    if (el.age == userInputAge) {
       return true;
     }
-    // return true if el.height matches userInputHeight
-  });
+  })
+  return newArrayAge
+
+function getAge(dob) {
+    let date = new Date();
+    date = date.getFullYear();
+    dob = dob.split("/");
+    let age = date - dob[2];
+    return age;
+}
 
   return newArray;
 }
@@ -136,9 +149,6 @@ function searchByOccupation(people) {
   return newArray;
 }
 // Menu function to call once you find who you are looking for
-
-
-
 
 
 
