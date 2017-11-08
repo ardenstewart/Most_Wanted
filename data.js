@@ -12,7 +12,6 @@ const data = [
 		"occupation": "programmer",
 		"parents": [],
 		"currentSpouse": 401222887
-
 	},
 	{
 		"id": 401222887,

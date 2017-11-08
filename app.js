@@ -16,7 +16,7 @@ function app(people){
     alert("Wrong! Please try again, following the instructions dummy. :)");
     app(people); // restart app
     break;
-  }
+  } 
 }
 
 function searchByTraits(people) {
@@ -123,6 +123,7 @@ function searchByAge(people) {
     }
   })
   return newArrayAge
+}
 
 function getAge(dob) {
     let date = new Date();
