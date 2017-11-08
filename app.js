@@ -136,11 +136,34 @@ function searchByOccupation(people) {
   return newArray;
 }
 // Menu function to call once you find who you are looking for
+function findFamily (person, people){
+// let parents
+// let siblings
+// let children
+// let spouse 
 
+   let family = [];
+
+    let parents = findParents(person, people);
+    family = family.concat(parents);
+    let spouse = findSpouse(person, people);
+    family = family.concat(spouse);
+    let siblings = findSiblings(person, people);
+    family = family.concat(siblings);
+    let children = findChildren(person, people);
+    family = family.concat(children);
+
+    let familyString = "";
+    for(let i = 0; i < family.length; i++) {
+      familyString += family[i].firstName + " " + family[i].lastName + "\n";
+    }
+    return familyString;
+    }
 
 function mainMenu(person, people){
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
+
 
   if(!person){
     alert("Could not find that individual.");
@@ -155,11 +178,13 @@ function mainMenu(person, people){
     // TODO: missing age, will include once we figure that out.
     break;
     case "family":
-    // TODO: get person's family 
-    alert(findFamily(person, people));
+   let familyString = findFamily(person, people);
+    alert(familyString);
+    
     break;
     case "descendants":
     // TODO: get person's descendants
+    alert(" Descendants: " + "");
     break;
     case "restart":
     app(people); // restart
@@ -172,79 +197,52 @@ function mainMenu(person, people){
 }
 // Still fiddling with finding  family members- trying this for now.
 
-function findFamily(person, people){
-  let family = [];
-  // family.concat(findSpouse(person, people));
-  family.concat(findParents(person, people));
-  // family.concat(findChildren(person, people));
-  // family.concat(findSiblings(person,people));
 
- 
-  return family;
+function findParents (person, people){
+  let parentsCode1 = person[0].parents[0];
+  let parentsCode2 = person[0].parents[1];
+
+  let newArray = people.filter(function(el){
+    if (el.id === parentsCode1 || el.id === parentsCode2){
+      return true;
+    }
+  });
+  return newArray;
 }
 
-  function findParents (person, people) {
-    let parents = " ";
-    for (let i = 0; i < newArray.length; i++) {
-      parents += newArray[i].firstName + " " + newArray[i].lastName + "\n";
-    }
-     
-
-    let parentsCode1 = people[0].parents[0];
-    let parentsCode2 = people[0].parents[1];
-
-    let newArray = people.filter(function (el) {
-    if (el.id === parentsCode1 || el.id === parentsCode2) {
-       return true;
-      }
-      });
-
-   
-
-  }
-
   function findSpouse (person, people) {
-    let spouse = " ";
-    spouse += newArray[0];
-    return spouse;
-
-
     let spouseCode = person[0].currentSpouse;
     let newArray = people.filter(function (el) {
     if (el.id === spouseCode) {
-       return person.firstName + person.lastName;
+       return true;
     }
     });
+    return newArray;
   }
 
 
-  function findSiblings (person, people) {
-    let siblings = " ";
-    siblings += ;
-    return siblings;
-    
+  function findSiblings (person, people) { 
     let parentsCode1 = person[0].parents[0];
     let parentsCode2 = person [0].parents[1];
 
     let newArray = people.filter(function (el) {
       if (el.parents[0] === parentsCode1 || el.parents[0] === parentsCode2 || el.parents[1] === parentsCode1 || el.parents[1] === parentsCode2) {
-        return person.firstName + person.lastName;
+        return true;
       } 
     });
+    return newArray;
   }
 
-  function findChildren (person, people) {
-    let children = " ";
-    children += person.firstName;
-    children += person.lastName;
-    return children;
 
+  function findChildren (person, people) {
     let idCode = person[0].id;
+
     let newArray = people.filter(function (el) {
       if (el.parents[0] === idCode || el.parents[1] === idCode ){
-        return person.firstName + person.lastName;
+        return true;
       }
     });
+    return newArray;
   }
 
 // End of fiddling with family
