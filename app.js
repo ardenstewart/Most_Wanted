@@ -18,6 +18,7 @@ Build all of your functions for displaying and gathering information below (GUI)
      app(people); // restart app
      break;
    }
+ 
  }
 
  function searchByName(people){
@@ -31,7 +32,7 @@ Build all of your functions for displaying and gathering information below (GUI)
    	}
    });
  
-   let foundPerson = filteredPerson[0];
+   let foundPerson = filteredPerson;
    mainMenu(foundPerson, people);
  }
 
@@ -75,7 +76,7 @@ Build all of your functions for displaying and gathering information below (GUI)
     	  	break;
     	  }
     }
-    mainMenu(foundPeople[0], people);
+    mainMenu(foundPeople, people);
   }
 
 
@@ -231,8 +232,9 @@ function mainMenu(person, people){
     
     break;
     case "descendants":
-    // TODO: get person's descendants
-    alert(" Descendants: " + "");
+    let descendants = getDescendants(person, people, descendantsArray=[]);
+    let descendantString = getDescendantsString(descendants);
+    alert(" Descendants: \n\n" + descendantString);
     break;
     case "restart":
     app(people); // restart
@@ -271,7 +273,7 @@ function findParents (person, people){
 
   function findSiblings (person, people) { 
     let parentsCode1 = person[0].parents[0];
-    let parentsCode2 = person [0].parents[1];
+    let parentsCode2 = person[0].parents[1];
 
     let newArray = people.filter(function (el) {
       if (el.parents[0] === parentsCode1 || el.parents[0] === parentsCode2 || el.parents[1] === parentsCode1 || el.parents[1] === parentsCode2) {
@@ -293,21 +295,6 @@ function findParents (person, people){
     return newArray;
   }
 
-
-
-function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
-
-  let filteredPerson = people.filter(function (el) {
-  	if(el.firstName == firstName && el.lastName == lastName){
-  		return true;
-  	}
-  });
-
-  let foundPerson = filteredPerson;
-  mainMenu(foundPerson, people);
-}
 
 function displayPeople(people){
 	if(people.length === 0){
@@ -349,11 +336,33 @@ function chars(input){
   return true; // default validation only
 }
 
- function capitalizeFirstName(firstName){
+function capitalizeFirstName(firstName){
  	return firstName.charAt(0).toUpperCase() + firstName.slice(1);
- }
+}
 
- function capitalizeLastName(lastName){
+function capitalizeLastName(lastName){
  	return lastName.charAt(0).toUpperCase() + lastName.slice(1);
- }
+}
 
+function getDescendants(person, people, descendants=[]){
+	let nextGeneration;
+
+	for(let i = 0; i < person.length; i++){
+		nextGeneration = people.filter(function(el){
+	  	return(el.parents[0] === person[i].id || el.parents[1] === person[i].id)	
+	  });
+	}
+	descendants = descendants.concat(nextGeneration);
+	if (nextGeneration.length > 0){
+		descendants = getDescendants(nextGeneration, people, descendants);
+	}
+	return descendants;
+}
+
+function getDescendantsString(descendants){
+	let descendantString = "";
+	for(let i = 0; i < descendants.length; i++) {
+	   descendantString += descendants[i].firstName + " " + descendants[i].lastName + "\n";
+	}
+	return descendantString;
+}
