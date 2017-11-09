@@ -187,6 +187,7 @@ function findFamily (person, people){
 
    let family = [];
 
+
     let parents = findParents(person, people);
     family = family.concat(parents);
     let spouse = findSpouse(person, people);
@@ -202,23 +203,6 @@ function findFamily (person, people){
     }
     return familyString;
     }
-
-    // function getDescendants(person, people, descendants=[]){
-    //   let descendantString = "";
-    //   let nextGeneration = people.filter(function(el){
-    //   return(el.parents[0] === person[0].id || el.parents[1] === person[0].id)
-    //   });
-
-    // for (let i = 0 ; i < nextGeneration.length ; i++){
-    // descendants = getDescendants(nextGeneration, people, descendants);
-    // }
-
-    //   descendants = descendants.concat(nextGeneration);
-    //   if (nextGeneration.length === 0){
-    //   return descendants;}
-
-    //   return descendantString;
-    // } 
 
 function mainMenu(person, people){
 
@@ -243,7 +227,11 @@ function mainMenu(person, people){
     case "descendants":
     let descendants = getDescendants(person, people, descendantsArray=[]);
     let descendantString = getDescendantsString(descendants);
+    if (descendantString === ""){
+      alert("They have no descendants")
+    }else {
     alert(" Descendants: \n\n" + descendantString);
+    }
     break;
     case "restart":
     app(people); 
@@ -258,6 +246,8 @@ function mainMenu(person, people){
 
 
 function findParents (person, people){
+  if (person[0].parents[0] !== undefined) {
+
   let parentsCode1 = person[0].parents[0];
   let parentsCode2 = person[0].parents[1];
 
@@ -267,20 +257,25 @@ function findParents (person, people){
     }
   });
   return newArray;
+} else {let emptyArray = []; return emptyArray;}
 }
 
   function findSpouse (person, people) {
+     if (person[0].spouse !== undefined) {
     let spouseCode = person[0].currentSpouse;
     let newArray = people.filter(function (el) {
+      
     if (el.id === spouseCode) {
        return true;
     }
     });
     return newArray;
+  }else {let emptyArray = []; return emptyArray;}
   }
 
 
   function findSiblings (person, people) { 
+    if (person[0].parents[0] !== undefined) {
     let parentsCode1 = person[0].parents[0];
     let parentsCode2 = person[0].parents[1];
     if (!parentsCode1){
@@ -292,6 +287,7 @@ function findParents (person, people){
       } 
     });
     return newArray;
+  }else {let emptyArray = []; return emptyArray;}
   }
 
 
