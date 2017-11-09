@@ -1,9 +1,3 @@
-/*
-Build all of your functions for displaying and gathering information below (GUI).
-*/
-
-// app is the function called to start the entire application
-
  function app(people){
    var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
    switch(searchType){
@@ -15,7 +9,7 @@ Build all of your functions for displaying and gathering information below (GUI)
      break;
      default:
      alert("Wrong! Please try again, following the instructions dummy. :)");
-     app(people); // restart app
+     app(people); 
      break;
    }
  
@@ -209,12 +203,29 @@ function findFamily (person, people){
     return familyString;
     }
 
+    // function getDescendants(person, people, descendants=[]){
+    //   let descendantString = "";
+    //   let nextGeneration = people.filter(function(el){
+    //   return(el.parents[0] === person[0].id || el.parents[1] === person[0].id)
+    //   });
+
+    // for (let i = 0 ; i < nextGeneration.length ; i++){
+    // descendants = getDescendants(nextGeneration, people, descendants);
+    // }
+
+    //   descendants = descendants.concat(nextGeneration);
+    //   if (nextGeneration.length === 0){
+    //   return descendants;}
+
+    //   return descendantString;
+    // } 
+
 function mainMenu(person, people){
 
 
   if(!person){
     alert("Could not find that individual.");
-    return app(people); // restart
+    return app(people); 
   }
 
   var displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
@@ -223,13 +234,11 @@ function mainMenu(person, people){
     case "info":
     alert("Gender: " + person[0].gender + "\n" + "Height: " + person[0].height + " inches" + "\n" + "Weight: " + person[0].weight + " pounds" + "\n" + "Eye Color: " + person[0].eyeColor + "\n" + 
       "Age: " + getAge(person[0].dob));
-    // TODO: missing age, will include once we figure that out.
 
     break;
     case "family":
    let familyString = findFamily(person, people);
-    alert(familyString);
-    
+    alert("Family: " + familyString);
     break;
     case "descendants":
     let descendants = getDescendants(person, people, descendantsArray=[]);
@@ -237,12 +246,12 @@ function mainMenu(person, people){
     alert(" Descendants: \n\n" + descendantString);
     break;
     case "restart":
-    app(people); // restart
+    app(people); 
     break;
     case "quit":
-    return; // stop execution
+    return; 
     default:
-    return mainMenu(person, people); // ask again
+    return mainMenu(person, people); 
   }
 }
 
@@ -274,7 +283,9 @@ function findParents (person, people){
   function findSiblings (person, people) { 
     let parentsCode1 = person[0].parents[0];
     let parentsCode2 = person[0].parents[1];
-
+    if (!parentsCode1){
+      return;
+    }
     let newArray = people.filter(function (el) {
       if (el.parents[0] === parentsCode1 || el.parents[0] === parentsCode2 || el.parents[1] === parentsCode1 || el.parents[1] === parentsCode2) {
         return true;
@@ -306,12 +317,10 @@ function displayPeople(people){
 }
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
-  // personInfo += "Age: " + TODO- add in here once age is calculated
+  personInfo += "Age: " + getAge(person[0].dob) + "\n"
   personInfo += "Height: " + person.height + "\n";
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
@@ -326,14 +335,12 @@ function promptFor(question, valid){
   return response;
 }
 
-// helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
-// helper function to pass in as default promptFor validation
 function chars(input){
-  return true; // default validation only
+  return true; 
 }
 
 function capitalizeFirstName(firstName){
@@ -366,3 +373,4 @@ function getDescendantsString(descendants){
 	}
 	return descendantString;
 }
+
